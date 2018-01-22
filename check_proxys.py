@@ -4,6 +4,7 @@ import queue
 import telnetlib
 
 #先准备好数据
+#这只是测试，实际可以从数据库读取
 q = queue.Queue(20)
 # q.put({"http":" 219.244.186.30:3128"})
 q.put({"http": "113.200.101.200:80"})
@@ -17,6 +18,7 @@ q.put({"http": "114.243.67.243:8118"})
 q.put({"http": "36.67.66.115:53281"})
 q.put({"http": "49.71.16.6:8118"})
 q.put({"http": "125.211.202.26:53281"})
+q.put({"http":"113.140.25.4:81"})
 
 #下面是验证代理ip是否可用
 class proThread(threading.Thread):
@@ -28,11 +30,10 @@ class proThread(threading.Thread):
         print("线程："+str(self.threadID)+"开始")
         while q.qsize()> 0:
             proxie = q.get()
-            print(type(proxie))
             print(proxie)
             response = ''
             try:
-                response = requests.get("https://ip.cow66.cn", proxies=proxie)
+                response = requests.get("http://ip.chinaz.com/getip.aspx", proxies=proxie, timeout=20)
             except Exception as err:
                 print(err)
             finally:
@@ -41,7 +42,7 @@ class proThread(threading.Thread):
                 else:
                     print("error")
 
-
+#这里只是简单的开启2个线程
 thread1 = proThread(1)
 thread2 = proThread(2)
 thread1.start()
