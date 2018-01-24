@@ -1,24 +1,8 @@
 import threading
 import requests
 import queue
-import telnetlib
+import pymysql
 
-#先准备好数据
-#这只是测试，实际可以从数据库读取
-q = queue.Queue(20)
-# q.put({"http":" 219.244.186.30:3128"})
-q.put({"http": "113.200.101.200:80"})
-q.put({"http": "61.178.238.122:63000"})
-q.put({"http": "110.185.170.184:8080"})
-q.put({"http": "58.42.203.165:8118"})
-q.put({"http": "218.6.145.11:9797"})
-q.put({"http": "14.211.118.160:9797"})
-q.put({"http": "61.223.95.232:3128"})
-q.put({"http": "114.243.67.243:8118"})
-q.put({"http": "36.67.66.115:53281"})
-q.put({"http": "49.71.16.6:8118"})
-q.put({"http": "125.211.202.26:53281"})
-q.put({"http":"113.140.25.4:81"})
 
 #下面是验证代理ip是否可用
 class proThread(threading.Thread):
@@ -30,41 +14,61 @@ class proThread(threading.Thread):
         print("线程："+str(self.threadID)+"开始")
         while q.qsize()> 0:
             proxie = q.get()
-            print(proxie)
             response = ''
             try:
-                response = requests.get("http://ip.chinaz.com/getip.aspx", proxies=proxie, timeout=20)
+                response = requests.get("http://ip.chinaz.com/getip.aspx", proxies=proxie, timeout=30)
             except Exception as err:
                 print(err)
             finally:
                 if response:
-                    print(response.text)
+                    print("源ip:"+str(proxie)+"   网页返回结果"+response.text+"this ip is ok")
                 else:
-                    print("error")
-
-#这里只是简单的开启2个线程
-thread1 = proThread(1)
-thread2 = proThread(2)
-thread1.start()
-thread2.start()
-thread2.join()
-thread1.join()
+                    print("源ip:"+str(proxie)+"         error")
 
 
-#
-# import requests
-#
-#
-# url = "http://ip.chinaz.com/"
-# proxie = {"http":"124.72.109.183:8118"}
-# r = requests.get(url, proxies=proxie)
-# print(r.text)
+if __name__ == "__main__":
+    # 这是消息队列
+    q = queue.Queue()
+    #连接数据库
+    db = pymysql.connect(host='127.0.0.1', user='root', password='820403', db='proxy', port=3306)
+    cur = db.cursor()
+    # 查询ip port和类型，是http还是https
+    sql = "select ip, port, protocol from proxys;"
+    print(sql)
+    try:
+        cur.execute(sql)
+        results = cur.fetchall()
+        # 判断代理ip类型
+        for r in results:
+            if r[2] == 0:
+                protocol = 'http'
+            elif r[2] == 1:
+                protocol = 'https'
+            else:
+                protocol = 'http/https'
+            # 加入队列
+            ips = r[0] + ':' + str(r[1])
+            q.put({protocol: ips})
+    except Exception as e:
+        print(e)
+    finally:
+        db.close()
+    #打印下队列长度
+    print(str(q.qsize()))
 
-# import telnetlib
-#
-# try:
-#     telnetlib.Telnet('124.72.109.183', port='8118', timeout=20)
-# except:
-#     print ('connect failed')
-# else:
-#     print ('success')
+    #创建多线程
+
+    #定义线程数量
+    threadNum = 5
+
+    for n in range(0, threadNum):
+        name = 'thread'+str(n+1)
+        name = proThread(n+1)
+        name.start()
+
+    for t in range(0, threadNum):
+        name = 'thread' + str(t + 1)
+        name.join()
+    print("检查完毕")
+
+
