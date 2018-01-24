@@ -12,11 +12,12 @@ class proThread(threading.Thread):
 
     def run(self):
         print("线程："+str(self.threadID)+"开始")
-        while q.qsize()> 0:
+        while q.qsize() > 0:
             proxie = q.get()
             response = ''
             try:
-                response = requests.get("http://ip.chinaz.com/getip.aspx", proxies=proxie, timeout=30)
+                url = 'http://ip.chinaz.com/getip.aspx'
+                response = requests.get(url, proxies=proxie, timeout=30)
             except Exception as err:
                 print(err)
             finally:
@@ -59,7 +60,7 @@ if __name__ == "__main__":
     #创建多线程
 
     #定义线程数量
-    threadNum = 5
+    threadNum = 10
 
     for n in range(0, threadNum):
         name = 'thread'+str(n+1)
