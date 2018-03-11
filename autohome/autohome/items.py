@@ -9,6 +9,13 @@ import scrapy
 
 
 class AutohomeItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    #标题
+    title = scrapy.Field()
+    #链接
+    link = scrapy.Field()
+    #id号
+    id = scrapy.Field()
+    #评论量
+    replys = scrapy.Field()
+
+
