@@ -23,4 +23,6 @@ class DaliulianItem(scrapy.Item):
     另一种是种子edk2
     '''
     baidu_link = scrapy.Field()
-    edk2_link = scrapy.Field()
+    ed2k_link = scrapy.Field()
+    magnet_link = scrapy.Field()
+    thunder_link = scrapy.Field()
