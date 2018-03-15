@@ -6,7 +6,7 @@ class tvspider(scrapy.Spider):
     name = "tvspider_end"
     allow_domains = ["www.llduang.com"]
     start_urls = [
-        'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/page/8',
+        'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/page/5',
     ]
 
     #首页搜集电视剧的链接
@@ -35,11 +35,12 @@ class tvspider(scrapy.Spider):
         item['name'] = response.xpath('//*[@id="content"]/div[1]/h1/text()')
         detail = response.xpath('//div[@id="post_content"]')
         # print(detail.extract())
+
         #magnet链接
-        magnet_link = detail.xpath('./p/a[starts-with(@href,"magnet:?")]')
+        magnet_link = detail.xpath('.//a[starts-with(@href,"magnet:?")]')
         magnets = {}
         ed2ks = {}
-        if magnet_link:
+        if len(magnet_link) > 0:
             #列表不为空
             for m in magnet_link:
                 title = m.xpath('./text()').extract()
@@ -47,8 +48,8 @@ class tvspider(scrapy.Spider):
                 magnets[title[0]] = url[0]
 
         #ed2k链接
-        ed2k_link = detail.xpath('./p/a[starts-with(@href,"ed2k:")]')
-        if ed2k_link:
+        ed2k_link = detail.xpath('.//a[starts-with(@href,"ed2k:")]')
+        if len(ed2k_link) > 0:
             for e in ed2k_link:
                 title = e.xpath('./text()').extract()
                 url = e.xpath('./@href').extract()
@@ -78,14 +79,21 @@ class tvspider(scrapy.Spider):
             baidu_link.append(baidu[0])
             baidu_link.append(mima[0])
             item['baidu_link'] = baidu_link
-            print("有百度云：")
-            print( item['ed2k_link'], item['baidu_link'], item['magnet_link'])
-            print("========================================")
         else:
-            print("没百度云：")
-            print( item['ed2k_link'], item['magnet_link'])
-            print("=======================================================")
+            item['baidu_link'] = None
 
 
+        #thunder链接
+        if len(detail.xpath('.//a[starts-with(@href,"thunder:")]')) > 0 :
+            thunder = {}
+            for t in detail.xpath('.//a[starts-with(@href,"thunder:")]'):
+                title = t.xpath('./text()').extract()
+                url = t.xpath('./@href').extract()
+                thunder[title[0]] = url[0]
+            item['thunder_link'] = thunder
+        else:
+            item['thunder_link'] = None
 
-
+        #测试下
+        print(item['ed2k_link'], item['baidu_link'], item['magnet_link'], item['thunder_link'])
+        print('=================================================================')
