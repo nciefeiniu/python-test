@@ -6,7 +6,7 @@ class tvspider(scrapy.Spider):
     name = "tvspider_end"
     allow_domains = ["www.llduang.com"]
     start_urls = [
-        'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/page/5',
+        'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/',
     ]
 
     #首页搜集电视剧的链接
@@ -32,7 +32,8 @@ class tvspider(scrapy.Spider):
         item = DaliulianItem()
         #这是在大榴莲中的url
         item['link'] = response.meta['f_url']
-        item['name'] = response.xpath('//*[@id="content"]/div[1]/h1/text()')
+        item['name'] = response.xpath('//*[@id="content"]/div[1]/h1/text()').extract()[0]
+        #开始采集url
         detail = response.xpath('//div[@id="post_content"]')
         # print(detail.extract())
 
@@ -53,7 +54,7 @@ class tvspider(scrapy.Spider):
             for e in ed2k_link:
                 title = e.xpath('./text()').extract()
                 url = e.xpath('./@href').extract()
-                ed2ks[title[0]] = url
+                ed2ks[title[0]] = url[0]
 
         try:
             if len(magnets) > 0 :
@@ -72,12 +73,11 @@ class tvspider(scrapy.Spider):
             print('error' + '这里发生点问题')
 
         #百度云链接
-        baidu_link = []
+        baidu_link = {}
         baidu = detail.xpath('.//a[contains(text(),"https://pan.baidu.com/")]/text()').extract()
         if baidu:
             mima = response.xpath('//span[contains(text(),"密码")]/text()').extract()
-            baidu_link.append(baidu[0])
-            baidu_link.append(mima[0])
+            baidu_link[baidu[0]] = mima[0]
             item['baidu_link'] = baidu_link
         else:
             item['baidu_link'] = None
@@ -94,6 +94,12 @@ class tvspider(scrapy.Spider):
         else:
             item['thunder_link'] = None
 
+
+
         #测试下
-        print(item['ed2k_link'], item['baidu_link'], item['magnet_link'], item['thunder_link'])
-        print('=================================================================')
+        # print('================================================================')
+        # print(item['name'], item['link'])
+        # print(item['ed2k_link'], item['baidu_link'], item['magnet_link'], item['thunder_link'])
+        # print('=================================================================')
+
+        yield item
