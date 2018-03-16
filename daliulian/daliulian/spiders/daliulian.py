@@ -6,7 +6,7 @@ class tvspider(scrapy.Spider):
     name = "tvspider_end"
     allow_domains = ["www.llduang.com"]
     start_urls = [
-        # 'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/',
+        'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/',
         'http://www.llduang.com/%E6%9C%80%E6%96%B0%E7%94%B5%E5%BD%B1/%E6%AC%A7%E7%BE%8E%E7%94%B5%E5%BD%B1',
         'http://www.llduang.com/%E6%9C%80%E6%96%B0%E7%94%B5%E5%BD%B1/%E6%97%A5%E9%9F%A9%E7%94%B5%E5%BD%B1',
         'http://www.llduang.com/%E6%9C%80%E6%96%B0%E7%94%B5%E5%BD%B1/%E5%9B%BD%E4%BA%A7%E7%94%B5%E5%BD%B1',
@@ -79,7 +79,7 @@ class tvspider(scrapy.Spider):
         #百度云链接
         baidu_link = {}
         baidu = detail.xpath('.//a[contains(text(),"https://pan.baidu.com/")]/text()').extract()
-        if baidu:
+        if len(baidu) > 0:
             mima = response.xpath('//span[contains(text(),"密码")]/text()').extract()
             baidu_link[baidu[0]] = mima[0]
             item['baidu_link'] = baidu_link
