@@ -66,7 +66,7 @@ class tvspider(scrapy.Spider):
             else:
                 item['magnet_link'] = None
         except BaseException:
-            print('error'+'这里发生点问题')
+            print('error'+'Something has happened here')
 
         try:
             if len(ed2ks) > 0 :
@@ -74,7 +74,7 @@ class tvspider(scrapy.Spider):
             else:
                 item['ed2k_link'] = None
         except BaseException:
-            print('error' + '这里发生点问题')
+            print('error' + 'Something has happened here')
 
         #百度云链接
         baidu_link = {}

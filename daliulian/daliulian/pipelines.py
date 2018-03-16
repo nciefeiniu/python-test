@@ -28,7 +28,7 @@ class DaliulianPipeline(object):
             self.cursor.execute("""select * from tv_name where name=%s""", item['name'])
             repetition = self.cursor.fetchone()
             if repetition:
-                print('这个数据库有了呀')
+                print('Already exists in the database')
                 self.cursor.execute("""select id from tv_name where name=%s""", item['name'])
                 new_id = self.cursor.fetchone()[0]
             else:
@@ -45,14 +45,14 @@ class DaliulianPipeline(object):
                         self.cursor.execute("""select * from tv_urls where url=%s""", v)
                         repetition = self.cursor.fetchone()
                         if repetition:
-                            print('这个数据库有了呀')
+                            print('Already exists in the database')
                             continue
                         else:
                             print('ok')
                             self.cursor.execute("""insert into tv_urls(url_name, url, nid) VALUE(%s, %s, %s) """, (k, v, new_id))
                         self.connect.commit()
                 else:
-                    print("这是空的啊！！！！！！！！！！！！！")
+                    print("There is nothing inside")
         except Exception as error:
             print(error)
         return item

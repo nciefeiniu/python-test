@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1aa9334b-b1c1-4208-b552-291e1207a8e5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/daliulian/daliulian/pipelines.py" afterPath="$PROJECT_DIR$/daliulian/daliulian/pipelines.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/daliulian/daliulian/spiders/daliulian.py" afterPath="$PROJECT_DIR$/daliulian/daliulian/spiders/daliulian.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,8 +35,8 @@
       <file leaf-file-name="daliulian.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/daliulian/daliulian/spiders/daliulian.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="81" column="25" lean-forward="false" selection-start-line="81" selection-start-column="25" selection-end-line="81" selection-end-column="25" />
+            <state relative-caret-position="-212">
+              <caret line="68" column="54" lean-forward="false" selection-start-line="68" selection-start-column="54" selection-end-line="68" selection-end-column="54" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -45,7 +47,7 @@
       <file leaf-file-name="middlewares.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/daliulian/daliulian/middlewares.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
+            <state relative-caret-position="644">
               <caret line="58" column="68" lean-forward="true" selection-start-line="58" selection-start-column="68" selection-end-line="58" selection-end-column="68" />
               <folding>
                 <element signature="e#169#195#0" expanded="true" />
@@ -57,7 +59,7 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/daliulian/daliulian/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
+            <state relative-caret-position="414">
               <caret line="75" column="18" lean-forward="true" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
               <folding />
             </state>
@@ -80,15 +82,15 @@
       <file leaf-file-name="pipelines.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/daliulian/daliulian/pipelines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="920">
-              <caret line="40" column="15" lean-forward="true" selection-start-line="40" selection-start-column="15" selection-end-line="40" selection-end-column="15" />
+            <state relative-caret-position="1122">
+              <caret line="54" column="52" lean-forward="true" selection-start-line="54" selection-start-column="52" selection-end-line="54" selection-end-column="52" />
               <folding>
                 <element signature="e#194#208#0" expanded="true" />
-                <marker date="1521206855198" expanded="true" signature="770:805" ph="select * fro... tv_name" />
-                <marker date="1521206855198" expanded="true" signature="972:1008" ph="select * fro... tv_name" />
-                <marker date="1521206855198" expanded="true" signature="1163:1209" ph="insert into tv_name... " />
-                <marker date="1521206855198" expanded="true" signature="1606:1640" ph="select * fro... tv_urls" />
-                <marker date="1521206855198" expanded="true" signature="1951:2008" ph="insert into tv_urls... " />
+                <marker date="1521214063020" expanded="true" signature="770:805" ph="select * fro... tv_name" />
+                <marker date="1521214063020" expanded="true" signature="994:1030" ph="select * fro... tv_name" />
+                <marker date="1521214063020" expanded="true" signature="1185:1231" ph="insert into tv_name... " />
+                <marker date="1521214063020" expanded="true" signature="1628:1662" ph="select * fro... tv_urls" />
+                <marker date="1521214063020" expanded="true" signature="1995:2052" ph="insert into tv_urls... " />
               </folding>
             </state>
           </provider>
@@ -124,8 +126,8 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/daliulian/daliulian/README.md" />
         <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/daliulian/daliulian/pipelines.py" />
         <option value="$PROJECT_DIR$/daliulian/daliulian/settings.py" />
+        <option value="$PROJECT_DIR$/daliulian/daliulian/pipelines.py" />
         <option value="$PROJECT_DIR$/daliulian/daliulian/spiders/daliulian.py" />
       </list>
     </option>
@@ -712,6 +714,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/daliulian/daliulian/items.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="27" column="33" lean-forward="false" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/daliulian/daliulian/pipelines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="54" column="52" lean-forward="true" selection-start-line="54" selection-start-column="52" selection-end-line="54" selection-end-column="52" />
+          <folding>
+            <element signature="e#194#208#0" expanded="true" />
+            <marker date="1521214063020" expanded="true" signature="770:805" ph="select * fro... tv_name" />
+            <marker date="1521214063020" expanded="true" signature="994:1030" ph="select * fro... tv_name" />
+            <marker date="1521214063020" expanded="true" signature="1185:1231" ph="insert into tv_name... " />
+            <marker date="1521214063020" expanded="true" signature="1628:1662" ph="select * fro... tv_urls" />
+            <marker date="1521214063020" expanded="true" signature="1995:2052" ph="insert into tv_urls... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/daliulian/daliulian/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -723,17 +748,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/daliulian/daliulian/items.py">
+    <entry file="file://$PROJECT_DIR$/daliulian/daliulian/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="27" column="33" lean-forward="false" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
+        <state relative-caret-position="414">
+          <caret line="75" column="18" lean-forward="true" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/daliulian/daliulian/middlewares.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
+        <state relative-caret-position="644">
           <caret line="58" column="68" lean-forward="true" selection-start-line="58" selection-start-column="68" selection-end-line="58" selection-end-column="68" />
           <folding>
             <element signature="e#169#195#0" expanded="true" />
@@ -741,33 +766,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/daliulian/daliulian/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="75" column="18" lean-forward="true" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/daliulian/daliulian/pipelines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="920">
-          <caret line="40" column="15" lean-forward="true" selection-start-line="40" selection-start-column="15" selection-end-line="40" selection-end-column="15" />
-          <folding>
-            <element signature="e#194#208#0" expanded="true" />
-            <marker date="1521206855198" expanded="true" signature="770:805" ph="select * fro... tv_name" />
-            <marker date="1521206855198" expanded="true" signature="972:1008" ph="select * fro... tv_name" />
-            <marker date="1521206855198" expanded="true" signature="1163:1209" ph="insert into tv_name... " />
-            <marker date="1521206855198" expanded="true" signature="1606:1640" ph="select * fro... tv_urls" />
-            <marker date="1521206855198" expanded="true" signature="1951:2008" ph="insert into tv_urls... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/daliulian/daliulian/spiders/daliulian.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="81" column="25" lean-forward="false" selection-start-line="81" selection-start-column="25" selection-end-line="81" selection-end-column="25" />
+        <state relative-caret-position="-212">
+          <caret line="68" column="54" lean-forward="false" selection-start-line="68" selection-start-column="54" selection-end-line="68" selection-end-column="54" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
