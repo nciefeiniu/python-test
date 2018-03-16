@@ -6,7 +6,11 @@ class tvspider(scrapy.Spider):
     name = "tvspider_end"
     allow_domains = ["www.llduang.com"]
     start_urls = [
-        'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/',
+        # 'http://www.llduang.com/lianxuju/%E5%B7%B2%E5%AE%8C%E7%BB%93/',
+        'http://www.llduang.com/%E6%9C%80%E6%96%B0%E7%94%B5%E5%BD%B1/%E6%AC%A7%E7%BE%8E%E7%94%B5%E5%BD%B1',
+        'http://www.llduang.com/%E6%9C%80%E6%96%B0%E7%94%B5%E5%BD%B1/%E6%97%A5%E9%9F%A9%E7%94%B5%E5%BD%B1',
+        'http://www.llduang.com/%E6%9C%80%E6%96%B0%E7%94%B5%E5%BD%B1/%E5%9B%BD%E4%BA%A7%E7%94%B5%E5%BD%B1',
+        'http://www.llduang.com/%E6%9C%80%E6%96%B0%E7%94%B5%E5%BD%B1/%E5%8A%A8%E6%BC%AB',
     ]
 
     #首页搜集电视剧的链接
@@ -25,7 +29,8 @@ class tvspider(scrapy.Spider):
             pass
         else:
             # print(type(next_page))
-            yield scrapy.Request(next_page[0], callback=self.parse)
+            if len(next_page) > 0:
+                yield scrapy.Request(next_page[0], callback=self.parse)
 
     #进一步深入，提取资源链接
     def parse_next(self, response):
