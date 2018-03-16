@@ -28,10 +28,11 @@ class DaliulianPipeline(object):
             self.cursor.execute("""select * from tv_name where name=%s""", item['name'])
             repetition = self.cursor.fetchone()
             if repetition:
+                print('这个数据库有了呀')
                 self.cursor.execute("""select id from tv_name where name=%s""", item['name'])
                 new_id = self.cursor.fetchone()[0]
-
             else:
+                print('ok')
                 self.cursor.execute("""insert into tv_name(name, f_url) VALUE(%s, %s) """, (item['name'], item['link']))
                 # 获取自增ID,插入到tv_urls表
                 new_id = self.cursor.lastrowid
@@ -47,6 +48,7 @@ class DaliulianPipeline(object):
                             print('这个数据库有了呀')
                             continue
                         else:
+                            print('ok')
                             self.cursor.execute("""insert into tv_urls(url_name, url, nid) VALUE(%s, %s, %s) """, (k, v, new_id))
                         self.connect.commit()
                 else:

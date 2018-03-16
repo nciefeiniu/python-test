@@ -55,12 +55,11 @@ class tvspider(scrapy.Spider):
 
         #ed2k链接
         ed2k_link = detail.xpath('.//a[starts-with(@href,"ed2k:")]')
-        if len(ed2k_link) > 0:
-            for e in ed2k_link:
+        for e in ed2k_link:
+            if len(e.xpath('./text()').extract()) > 0:
                 title = e.xpath('./text()').extract()
                 url = e.xpath('./@href').extract()
                 ed2ks[title[0]] = url[0]
-
         try:
             if len(magnets) > 0 :
                 item['magnet_link'] = magnets
@@ -89,12 +88,13 @@ class tvspider(scrapy.Spider):
 
 
         #thunder链接
-        if len(detail.xpath('.//a[starts-with(@href,"thunder:")]')) > 0 :
+        if detail.xpath('.//a[starts-with(@href,"thunder:")]') :
             thunder = {}
             for t in detail.xpath('.//a[starts-with(@href,"thunder:")]'):
-                title = t.xpath('./text()').extract()
-                url = t.xpath('./@href').extract()
-                thunder[title[0]] = url[0]
+                if len(t.xpath('./text()').extract()) > 0:
+                    title = t.xpath('./text()').extract()
+                    url = t.xpath('./@href').extract()
+                    thunder[title[0]] = url[0]
             item['thunder_link'] = thunder
         else:
             item['thunder_link'] = None
