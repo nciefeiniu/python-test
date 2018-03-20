@@ -1,0 +1,54 @@
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+div#viewport{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.content{
+    width: 1139px;
+    height: 363px;
+    padding-bottom: 35px;
+    /*padding-top: 50px;*/
+    color: aqua;
+    margin: 10% auto;
+}
+
+div.logo{
+    width: 1139px;
+    height: 200px;
+}
+div.logo_{
+    padding-top: 50px;
+}
+
+#logo_img{
+    margin: 0 auto;
+    height: 100px;
+}
+
+div.search{
+    width: 1139px;
+    height: 163px;
+}
+input.form-control{
+    width: 530px;
+    margin: 0 auto;
+}
+div.sure{
+    width: 530px;
+    height: auto;
+    margin: 0 auto;
+}
+
+div#footer{
+    width: 200px;
+    margin: 0 auto;
+    font-size: 14px;
+    font-family: Verdana;
+}
