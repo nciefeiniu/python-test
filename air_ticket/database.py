@@ -7,7 +7,7 @@ import pymysql
    * 如 2018041018
    * 后期好依据这个排序
 '''
-class Data:
+class Databases:
     def __Connect(self):
         conf = configparser.ConfigParser()
         try:
@@ -25,9 +25,9 @@ class Data:
             sys.exit(1)
         return self.cur
 
-    def insert_db(self,code: str, depAir: str, arrAir: str, minPrice: int, date: int, depTime: int, arrTime: int, seaTime: int):
+    def insert_db(self,code: str, depAir: str, arrAir: str, minPrice: int, date: int, depTime: int, arrTime: int, seaTime: int, productCode: str, type: int):
         # print(type(conf['Port']))
-        sql_insert = "INSERT INTO `ticket_prices`.`qunar_min_prices` (`aircode`, `depair`, `arrair`, `deptime`, `arrtime`, `date`, `seardate`, `minprice`) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" % (code,depAir,arrAir,depTime,arrTime,date,seaTime,minPrice)
+        sql_insert = "INSERT INTO `ticket_prices`.`eastern_prices` (`aircode`, `depair`, `arrair`, `deptime`, `arrtime`, `date`, `seardate`, `price`, `productcode`, `type`) VALUES('%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', %s);" % (code,depAir,arrAir,depTime,arrTime,int(date),seaTime,minPrice, productCode, type)
         print(sql_insert)
         try:
             cur = self.__Connect()
@@ -37,12 +37,12 @@ class Data:
             print("ERROR INSERT: %s" % err)
             sys.exit(1)
         finally:
+            # pass
             cur.close()
             self.conn.close()
 
+d = Databases()
+d.insert_db('mu8738','CTU','CKG',200,20180421,2244,2344,2018042115,'safs',0)
 
-
-d = Data()
-d.insert_db('CA1254','PVG','CNG',456,20180411,2244,2344,2018041121)
 
 
