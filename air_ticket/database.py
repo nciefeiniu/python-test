@@ -7,42 +7,39 @@ import pymysql
    * 如 2018041018
    * 后期好依据这个排序
 '''
-class Databases:
-    def __Connect(self):
-        conf = configparser.ConfigParser()
-        try:
-            conf.read('config.ini')
-        except Exception as err:
-            print('ERROR CONFIG: %s' % err)
-            sys.exit(1)
+def database_mysql(airdatas):
+    print(airdatas)
+    conf = configparser.ConfigParser()
+    try:
+        # 读取配置文件
+        conf.read('config.ini')
+    except Exception as err:
+        print('ERROR CONFIG: %s' % err)
+        sys.exit(1)
+    try:
+        # 读取信息，链接MYSQL数据库
         conf = conf['MYSQL']
-        # 链接mysql数据库，使用pymysql
-        try:
-            self.conn = pymysql.connect(host=conf['Host'], user=conf['UserName'], password=conf['PassWord'], db=conf['DataBase'], port=int(conf['Port']))
-            self.cur = self.conn.cursor()
-        except  Exception as err:
-            print("ERROR CONNECT: %s" % err)
-            sys.exit(1)
-        return self.cur
+        conn = pymysql.connect(host=conf['Host'], user=conf['UserName'], password=conf['PassWord'],
+                                    db=conf['DataBase'], port=int(conf['Port']))
+        # 获取指针
+        cur = conn.cursor()
+    except  Exception as err:
+        print("数据库连接错误！！请查案账号密码数据库名"+"ERROR CONNECT: %s" % err)
+        sys.exit(1)
 
-    def insert_db(self,code: str, depAir: str, arrAir: str, minPrice: int, date: int, depTime: int, arrTime: int, seaTime: int, productCode: str, type: int):
-        # print(type(conf['Port']))
-        sql_insert = "INSERT INTO `ticket_prices`.`eastern_prices` (`aircode`, `depair`, `arrair`, `deptime`, `arrtime`, `date`, `seardate`, `price`, `productcode`, `type`) VALUES('%s', '%s', '%s', %s, %s, %s, %s, %s, '%s', %s);" % (code,depAir,arrAir,depTime,arrTime,int(date),seaTime,minPrice, productCode, type)
-        print(sql_insert)
+    # 插入
+    for ad in airdatas:
         try:
-            cur = self.__Connect()
+            sql_insert = "INSERT INTO eastern_prices(aircode,depair,arrair,deptime,arrtime,flydate,seardate,productcode,price,types) VALUES('{aircode}','{depair}','{arrair}','{deptime}','{arrtime}','{flydate}','{searchdate}','{productcode}','{price}', {types});" .format(aircode=ad[0],depair=ad[1],arrair=ad[2],deptime=ad[3],arrtime=ad[4],flydate=ad[5],searchdate=ad[6],productcode=ad[7],price=ad[8],types=ad[9])
+            print(sql_insert)
             cur.execute(sql_insert)
-            self.conn.commit()
         except Exception as err:
-            print("ERROR INSERT: %s" % err)
-            sys.exit(1)
-        finally:
-            # pass
-            cur.close()
-            self.conn.close()
-
-d = Databases()
-d.insert_db('mu8738','CTU','CKG',200,20180421,2244,2344,2018042115,'safs',0)
-
-
-
+            print('插入错误'+str(err))
+            continue
+    # 提交
+    try:
+        conn.commit()
+    except Exception as err:
+        print("提交错误"+str(err))
+    finally:
+        conn.close()
