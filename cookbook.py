@@ -6,8 +6,6 @@
 import requests
 import json
 import time
-from air_ticket.database import Databases
-
 
 url = r'http://www.ceair.com/otabooking/flight-search!doFlightSearch.shtml'
 headers = {
@@ -50,5 +48,5 @@ for pu in productUnits:
 
 
 
-d = Databases()
-d.insert_db('mu8738','CTU','CKG',200,20180421,2244,2344,2018042115,'safs',0)
+# d = Databases()
+# d.insert_db('mu8738','CTU','CKG',200,20180421,2244,2344,2018042115,'safs',0)
