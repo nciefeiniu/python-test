@@ -33,7 +33,7 @@ def out_print(num:int):
     # 结束位置
     e_x = 0
     e_y = cols - 1
-    # 坐标操作
+    # 坐标移动操作
     op = [(0,1), (1,0), (0,-1), (-1,0)]
     for i in range(1,rows+1):
         if i % 2 == 1:
