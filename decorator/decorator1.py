@@ -18,7 +18,7 @@ def timer(auth_type):
         return warpper
     return out_warpper
 
-@timer(auth_type='lnmp')
+@timer(auth_type='lamp')
 def test1(name):
     time.sleep(3)
     print('测试员： %s' % name)
