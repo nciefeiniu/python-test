@@ -38,10 +38,9 @@ class FtpClient(object):
                 func = getattr(self, "cmd_%s" % cmd_str)
                 func(cmd)
             else:
-                print('命令不存在，请查证：')
-                self.help()
-                print('\r')
-
+                print('命令无效')
+                help()
+                    
     def cmd_put(self, *args):
         '''
         上传文件
@@ -100,7 +99,8 @@ class FtpClient(object):
         else:
             print('命令不存在')
 
-
+        def cmd_others():
+            pass
 
 if __name__ == '__main__':
     client = FtpClient()
