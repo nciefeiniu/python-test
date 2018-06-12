@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
+'''
+没有基于MD5来进行文件验证
+auther: feiniu
+'''
 
 import socketserver
 import json, os
 
 class TcpServer(socketserver.BaseRequestHandler):
-
     def put(self, filename, filesize):
         # 给客户端回应，表示可以开始接收数据了
         self.request.send(b'200 OK')
@@ -17,6 +20,26 @@ class TcpServer(socketserver.BaseRequestHandler):
                 oversize += len(data)
             print('file has uploaded.')
 
+    def get(self,*args):
+        # 应该传入文件名 以及文件路径
+        # 现在是测试，先不传文件路径，默认就在当前文件同路径
+        filename = args[0]
+        filesize = os.stat(filename).st_size
+        msg = {
+            "filename": filename,
+            "size": filesize
+        }
+        # 给客户端发送文件信息
+        self.request.send(json.dumps(msg).encode('utf-8'))
+        # 防止粘包，等待客户端给一个响应
+        self.request.recv(1024)
+        # 开始发数据
+        with open(filename, 'rb') as f:
+            for line in f:
+                self.request.send(line)
+            print('send over')
+
+
     def handle(self):
         while True:
             try:
@@ -27,7 +50,7 @@ class TcpServer(socketserver.BaseRequestHandler):
                 filesize = cmd['size']
                 if hasattr(self, cmd['action']):
                     func = getattr(self, cmd['action'])
-                    func(filename, filesize)
+                    func(filename,filesize)
             except Exception as e:
                 print('err:', e)
                 break

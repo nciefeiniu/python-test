@@ -28,6 +28,7 @@ class FtpClient(object):
         self.client.connect((ip, port))
 
     def interactive(self):
+        # 监控客户端的命令，跳转到对应的方法
         while True:
             cmd = input('>>>').strip()
             if not cmd: continue
@@ -37,9 +38,16 @@ class FtpClient(object):
                 func = getattr(self, "cmd_%s" % cmd_str)
                 func(cmd)
             else:
+                print('命令不存在，请查证：')
                 self.help()
+                print('\r')
 
     def cmd_put(self, *args):
+        '''
+        上传文件
+        :param args:
+        :return:
+        '''
         cmd_split = args[0].split()
         if cmd_split:
             filename = cmd_split[1]
@@ -60,9 +68,39 @@ class FtpClient(object):
                     print('upload success')
             else:
                 print(filename, 'is not exist')
+        else:
+            print('命令不存在')
 
-    def cmd_get(self):
-        pass
+
+    def cmd_get(self, *args):
+        cmd_split = args[0].split()
+        if cmd_split:
+            fileinfo = {
+                "action": "get",
+                "filename": cmd_split[1],
+                "size": 0
+            }
+            # 给服务端发生请求下载数据
+            self.client.send(json.dumps(fileinfo).encode('utf-8'))
+            # 接受服务端的文件信息
+            data = self.client.recv(1024).strip()
+            server_response = json.loads(data.decode('utf-8'))
+            filesize = server_response['size']
+            filename = server_response['filename']
+            # 告诉服务端可以开始传数据了。能防止粘包
+            self.client.send(b'200 OK')
+            # 开始接收数据
+            oversize = 0
+            with open(filename, 'wb') as f:
+                while oversize < filesize:
+                    data = self.client.recv(1024)
+                    f.write(data)
+                    oversize += len(data)
+                print('Download success')
+        else:
+            print('命令不存在')
+
+
 
 if __name__ == '__main__':
     client = FtpClient()
