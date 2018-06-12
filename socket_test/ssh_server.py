@@ -24,15 +24,18 @@ def ssh_server():
         with socket.socket() as sshserver:
             sshserver.bind(('127.0.0.1', 1478))
             sshserver.listen()
+            conn, addr = sshserver.accept()
             while True:
-                conn, addr = sshserver.accept()
                 data = conn.recv(1024)
                 if not data:
                     print('None')
                     continue
                 print('Message:', data.decode('utf-8'))
                 msg = os.popen(data.decode('utf-8')).read()
+                if not msg: msg = 'comand if not found!'
                 conn.send(str(len(msg.encode('utf-8'))).encode('utf-8'))
+                # 处理粘包，等待客户端的回应
+                client_ack = conn.recv(1024)
                 conn.sendall(msg.encode('utf-8'))
                 print('send over')
 

@@ -63,3 +63,8 @@ class FtpClient(object):
 
     def cmd_get(self):
         pass
+
+if __name__ == '__main__':
+    client = FtpClient()
+    client.connect('127.0.0.1', 9999)
+    client.interactive()

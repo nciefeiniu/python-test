@@ -11,6 +11,8 @@ while True:
             sshclient.send(msg.encode())
             # 返回命令结果长度
             res_size = sshclient.recv(1024)
+            # 处理粘包，给服务端发送消息，能接收数据 了
+            sshclient.send(b'watting data')
             print(res_size)
             res = b''
             recevied_size = 0
