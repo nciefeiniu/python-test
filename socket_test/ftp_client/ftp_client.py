@@ -3,10 +3,12 @@
 
 import socket
 import os, json
+import hashlib
 
 class FtpClient(object):
     def __init__(self):
         self.client = socket.socket()
+       
 
     def help(self):
         msg = '''
@@ -29,6 +31,12 @@ class FtpClient(object):
 
     def interactive(self):
         # 监控客户端的命令，跳转到对应的方法
+        # 验证登陆
+        state_login = False
+        while not state_login:
+            state_login = self.login()
+        print('登陆成功')
+
         while True:
             cmd = input('>>>').strip()
             if not cmd: continue
@@ -40,7 +48,34 @@ class FtpClient(object):
             else:
                 print('命令无效')
                 help()
-                    
+
+    def login(self):
+        print('请登录')
+        username = input('请输入账号：').strip()
+        passwd = input('密码：').strip()
+        # 用md5加密传输
+        # h1 = hashlib.md5()
+        h2 = hashlib.md5()
+        # username = h1.update(username.encode('utf-8'))
+        passwd = h2.update(passwd.encode('utf-8'))
+        msg = {
+            'action': 'login',
+            'username': username,
+            'passwd': h2.hexdigest()
+        }
+        # 向服务器验证
+        self.client.send(json.dumps(msg).encode('utf-8'))
+        server_response = self.client.recv(1024).strip().decode('utf-8')
+        # print(json.loads(server_response))
+        # 从服务器返回的json中
+        try:
+            if json.loads(server_response)['state'] == 1 :
+                return True
+            return False
+        except Exception as e:
+            print('err: %s' %e)
+
+
     def cmd_put(self, *args):
         '''
         上传文件

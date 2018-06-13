@@ -6,10 +6,10 @@ auther: feiniu
 '''
 
 import socketserver
-import json, os
+import json, os, time
+# from writelogs import login_logs
 
 class TcpServer(socketserver.BaseRequestHandler):
-
     def put(self, infos:dict):
         # 上传数据
         # 给客户端回应，表示可以开始接收数据了
@@ -55,30 +55,23 @@ class TcpServer(socketserver.BaseRequestHandler):
             if self.username == data['username'] and self.passwd == data['passwd']:
                 print('OK')
                 return True
-        print('account is unable')
+        print('account or password is unable')
         return False
 
     def handle(self):
+        print('开始运行')
         while True:
             try:
                 # 验证登陆
                 login_data = json.loads(self.request.recv(1024).strip().decode('utf-8'))
-                print(login_data)
                 if self.login(login_data):
                     msg = {
                         "state": 1
                     }
                     self.request.send(json.dumps(msg).encode('utf-8'))
-                    # if hasattr(self, login_data['action']):
-                    #     func = getattr(self, login_data['action'])
-                    #     # 验证方法返回True or False
-                    #     if not func(login_data):
-                    #         continue
                     print('客户端： %s 连接成功' % self.client_address[0])
                     self.cmd_data = self.request.recv(1024).strip()
                     cmd = json.loads(self.cmd_data.decode())
-                    # filename = cmd['filename']
-                    # filesize = cmd['size']
                     if hasattr(self, cmd['action']):
                         func = getattr(self, cmd['action'])
                         func(cmd)
