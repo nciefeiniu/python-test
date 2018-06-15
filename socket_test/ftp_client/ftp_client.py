@@ -8,7 +8,7 @@ import hashlib
 class FtpClient(object):
     def __init__(self):
         self.client = socket.socket()
-       
+        self.dir = '/'
 
     def help(self):
         msg = '''
@@ -45,9 +45,12 @@ class FtpClient(object):
             if hasattr(self, "cmd_%s" % cmd_str):
                 func = getattr(self, "cmd_%s" % cmd_str)
                 func(cmd)
+            elif cmd_str[0] == 'cd':
+                self.dir = cmd_str[1]
             else:
-                print('命令无效')
-                help()
+                func = getattr(self, 'cmd_others')
+                func(cmd)
+                # help()
 
     def login(self):
         print('请登录')
@@ -70,10 +73,31 @@ class FtpClient(object):
         # 从服务器返回的json中
         try:
             if json.loads(server_response)['state'] == 1 :
+                if json.loads(server_response)['systeminfo']:
+                    print('Welcome to %s' % json.loads(server_response)['systeminfo'])
                 return True
             return False
         except Exception as e:
             print('err: %s' %e)
+
+    def cmd_others(self, *args):
+        cmd_head = args[0].split()
+        if cmd_head[0] == 'ls':
+            cmd_info = {
+                "action": "cmd_others",
+                "head":cmd_head[0],
+                "cmd": args[0],
+                "currentdir": self.dir
+            }
+            print(cmd_info)
+            self.client.send(json.dumps(cmd_info).encode('utf-8'))
+            server_response = self.client.recv(1024).strip().decode('utf-8')
+            data = json.loads(server_response)
+            print(data['result'])
+        elif cmd_head == 'cd':
+            self.dir = args[1]
+        elif cmd_head == 'pwd':
+            print(self.dir)
 
 
     def cmd_put(self, *args):
@@ -104,6 +128,7 @@ class FtpClient(object):
                 print(filename, 'is not exist')
         else:
             print('命令不存在')
+            self.help()
 
 
     def cmd_get(self, *args):
@@ -133,11 +158,13 @@ class FtpClient(object):
                 print('Download success')
         else:
             print('命令不存在')
+            self.help()
 
         def cmd_others():
             pass
 
 if __name__ == '__main__':
     client = FtpClient()
-    client.connect('127.0.0.1', 9999)
+    client.connect('111.230.243.174', 9999)
+    # client.connect('127.0.0.1', 9992)
     client.interactive()

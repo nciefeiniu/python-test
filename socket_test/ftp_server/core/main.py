@@ -10,6 +10,10 @@ import json, os, time
 # from writelogs import login_logs
 
 class TcpServer(socketserver.BaseRequestHandler):
+    # def __init__(self):
+    #     super(TcpServer, self).__init__()
+    #     self.username = ''
+
     def put(self, infos:dict):
         # 上传数据
         # 给客户端回应，表示可以开始接收数据了
@@ -50,13 +54,28 @@ class TcpServer(socketserver.BaseRequestHandler):
             data = json.load(f)
         datas = data['account']
         self.username = login_data['username']
-        self.passwd = login_data['passwd']
+        passwd = login_data['passwd']
         for data in datas:
-            if self.username == data['username'] and self.passwd == data['passwd']:
-                print('OK')
+            if self.username == data['username'] and passwd == data['passwd']:
+                self.dir = '/home/%s' % self.username
+                print('%s is login' % self.username)
                 return True
         print('account or password is unable')
         return False
+
+    def cmd_others(self, cmd):
+        '''
+        :param cmd: dict
+        :return:
+        '''
+        command = cmd['cmd'] +' ' + self.dir + cmd['currentdir']
+        result = os.popen(command).read()
+        msg = {
+            "state": '200',
+            "result": result
+        }
+        self.request.send(json.dumps(msg).encode('utf-8'))
+
 
     def handle(self):
         print('开始运行')
@@ -65,13 +84,23 @@ class TcpServer(socketserver.BaseRequestHandler):
                 # 验证登陆
                 login_data = json.loads(self.request.recv(1024).strip().decode('utf-8'))
                 if self.login(login_data):
+
+                    print(self.dir)
+                    # 向客户端发送登陆成功的信息
+                    try:
+                        # 只有linux支持，windows不支持此语句
+                        sys_info = os.uname().version
+                    except Exception as e:
+                        print(e)
                     msg = {
-                        "state": 1
+                        "state": 1,
+                        "systeminfo": sys_info
                     }
                     self.request.send(json.dumps(msg).encode('utf-8'))
+
                     print('客户端： %s 连接成功' % self.client_address[0])
-                    self.cmd_data = self.request.recv(1024).strip()
-                    cmd = json.loads(self.cmd_data.decode())
+                    cmd_data = self.request.recv(1024).strip()
+                    cmd = json.loads(cmd_data.decode())
                     if hasattr(self, cmd['action']):
                         func = getattr(self, cmd['action'])
                         func(cmd)
@@ -87,6 +116,6 @@ class TcpServer(socketserver.BaseRequestHandler):
 
 
 if __name__ == "__main__":
-    HOST, PORT = '127.0.0.1', 9999
+    HOST, PORT = '127.0.0.1', 9992
     server = socketserver.ThreadingTCPServer((HOST, PORT), TcpServer)
     server.serve_forever()
