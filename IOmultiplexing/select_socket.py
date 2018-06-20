@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-IO多路复用，实现socket的多并发。
+IO多路复用-select，实现socket的多并发。
 当套接字比较多的时候，每次select()都要通过遍历FD_SETSIZE个Socket来完成调度，不管哪个Socket是活跃的，都遍历一遍。这会浪费很多CPU时间
 效率不高，浪费资源
 '''
@@ -20,6 +20,7 @@ def servers(host, port):
     while True:
         readable, writeable, exceptional = select.select(inputs, outputs, inputs)
         print(readable,writeable,exceptional)
+        # 每次检测到有活跃的时候，就循环遍历整个socket,浪费资源
         for r in readable:
             if r is server:
                 # 如果是server，那就把连接加入inputs，让kernel帮我们监控
