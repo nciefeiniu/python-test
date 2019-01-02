@@ -4,13 +4,15 @@
 import socket
 
 def clients(host, port):
-    client = socket.socket()
-    client.connect((host, port))
-    while True:
-        msg = input('>>>:').strip()
-        client.send(msg.encode('utf-8'))
-        resp = client.recv(1024)
-        print(resp)
+    with socket.socket() as client:
+        client.connect((host, port))
+        while True:
+            msg = input('>>>:').strip()
+            if msg:
+                client.send(msg.encode('utf-8'))
+                resp = client.recv(1024)
+                print(resp)
+            else:continue
 
 
 if __name__ == "__main__":

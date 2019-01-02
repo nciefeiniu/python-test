@@ -5,9 +5,10 @@
 '''
 
 from gevent import monkey
-import gevent, time
+import gevent,time
 from urllib import request
 
+# 吧程序中可能出现io的地方，打上标记
 monkey.patch_all()
 
 def test(url):

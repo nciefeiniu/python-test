@@ -20,6 +20,7 @@ def accept(sock, mask):
     print('accepted', conn, 'from:', addr)
     # 把socket设置为非阻塞
     conn.setblocking(False)
+    # 注册一个文件对象进行选择，监视它以查找i/o事件。
     sel.register(conn, selectors.EVENT_READ, asmsg)
 
 def asmsg(conn, mask):
@@ -44,12 +45,17 @@ def servers():
             # 默认阻塞的，有活动链接连接，就返回活动的连接列表
             try:
                 events = sel.select()
-                for key, mask in events:
+                print(events)
+                for key, mask, in events:
+                    print(mask)
+                    print(key.data)
                     callback_func = key.data
                     callback_func(key.fileobj, mask)
             except OSError as e:
                 print(e)
                 continue
+
+
 if __name__ == "__main__":
     servers()
 
