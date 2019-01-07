@@ -20,9 +20,9 @@ def cut_rope(length):
                 products[i] = max_l
             else:
                 products.append(max_l)
-    # print products
+    print products
     return products[length]
 
 
 if __name__ == '__main__':
-    print cut_rope(20)
+    print cut_rope(9)
