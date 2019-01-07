@@ -16,13 +16,13 @@ def cut_rope(length):
             product = products[j] * products[i - j]
             if max_l < product:
                 max_l = product
-            if len(products) > i + 1:
-                products[i] = max_l
-            else:
-                products.append(max_l)
+        if len(products) > i + 1:
+            products[i] = max_l
+        else:
+            products.append(max_l)
     print products
     return products[length]
 
 
 if __name__ == '__main__':
-    print cut_rope(9)
+    print cut_rope(8)
