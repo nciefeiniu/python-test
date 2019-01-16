@@ -77,11 +77,11 @@ class LinkList():
         _pre.next = _pre.next.next
 
     # 打印链表
-    def print_link_list(self):
+    def print_link_list(self, root):
         if self.is_empty():
             print 'Link list is empty.'
         else:
-            _index = self.root
+            _index = root
             _text = ''
             while _index:
                 # print _index.value
@@ -97,6 +97,16 @@ class LinkList():
         while _index:
             _index.next, _pre, _index = _pre, _index, _index.next
         return _pre
+
+    # 反转链表，实现2
+    def rev_link_list_2(self):
+        cur, pre = self.root, None
+        while cur:
+            _temp = cur
+            cur = cur.next
+            _temp.next = pre
+            pre = _temp
+        return pre
 
     # 递归方式，从尾到头输出链表
     def recursion(self):
@@ -118,20 +128,20 @@ if __name__ == '__main__':
     node = Node(nexts=None, value='2')
     l.push_head(node)
     print l.is_empty()
-    l.print_link_list()
+    l.print_link_list(l.root)
     print l.length()
     node = Node(value='5')
     l.push_head(node)
-    l.print_link_list()
+    l.print_link_list(l.root)
     print l.length()
     l.push_tail(Node(10))
-    l.print_link_list()
+    l.print_link_list(l.root)
 
     l.insert(2, Node(value=12))
-    l.print_link_list()
+    l.print_link_list(l.root)
 
     l.insert(4, Node(value=12))
-    l.print_link_list()
+    l.print_link_list(l.root)
     #
     # root = l.rev_link_list()
     # while root:
@@ -139,5 +149,10 @@ if __name__ == '__main__':
     #     root = root.next
 
     print '========递归============='
-    l.print_link_list()
+    l.print_link_list(l.root)
     l.recursion()
+
+    print '============='
+    # 反转链表实现2
+    res = l.rev_link_list_2()
+    l.print_link_list(res)
